@@ -1,0 +1,7 @@
+{
+  "name": "Openyhool AI",
+  "description": "A smart, universal AI chatbot capable of text, image understanding, and voice interaction.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
