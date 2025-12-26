@@ -1,8 +1,10 @@
-import React, { ErrorInfo, ReactNode } from 'react';
+
+import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { IconLogo, IconRefresh } from './Icons';
 
 interface Props {
-  children: ReactNode;
+  // Make children optional to satisfy the JSX compiler in some strict environments
+  children?: ReactNode;
 }
 
 interface State {
@@ -10,11 +12,16 @@ interface State {
   error: Error | null;
 }
 
-export class ErrorBoundary extends React.Component<Props, State> {
-  public state: State = {
-    hasError: false,
-    error: null,
-  };
+// Error Boundary to catch UI crashes and show a fallback interface.
+export class ErrorBoundary extends Component<Props, State> {
+  // Added constructor to ensure props are correctly initialized and typed for the base class
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      hasError: false,
+      error: null,
+    };
+  }
 
   public static getDerivedStateFromError(error: Error): State {
     return { hasError: true, error };
@@ -25,6 +32,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
   }
 
   public render() {
+    // Accessing this.state works correctly when state is defined as a class property or in constructor
     if (this.state.hasError) {
       return (
         <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center p-4 text-center text-white font-sans">
@@ -53,6 +61,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
       );
     }
 
+    // Explicitly return children from this.props
     return this.props.children;
   }
 }
